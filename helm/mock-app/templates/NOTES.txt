@@ -1,0 +1,24 @@
+servicename=$(k get service -l "app={{ .Values.appName }}" -o jsonpath="{.items[0].metadata.name}")
+kubectl --namespace {{ .Values.namespace}} port-forward service/{{ .Values.appName }} 8888:80
+helm install my-release-name ./mock-app -f mock-app/values-dev.yaml
+helm install my-release-name ./mock-app -f mock-app/values-prod.yaml
+
+#To encrypt the .secret.yaml file
+sops --encrypt --pgp <your_gpg_key> secret.yaml > encrypted-secret.yaml
+
+#To decrypt the .secret.yaml file
+sops --decrypt encrypted-secret.yaml > decrypted-secret.yaml
+
+#To apply the decrypted secret to your k8s luster:
+kubectl apply -f decrypted-secret.yaml
+
+###steps to using sops with k8s:
+- Encrypting your secrets using SOPS.:
+    - sops --encrypt --gpg [GPG_KEY] secrets.yaml > encrypted-secrets.yaml
+
+- Decrypting the secrets during deployment time:
+    - helm secrets upgrade ...
+    - sops --decrypt encrypted-secret.yaml > decrypted-secret.yaml
+
+- Applying the decrypted secrets to your Kubernetes cluster:
+  - Secrets will be available for your pods either as environment variables or mounted files depending on how you've configured them in your deployment.
