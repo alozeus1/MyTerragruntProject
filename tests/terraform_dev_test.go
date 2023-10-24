@@ -26,7 +26,7 @@ func TestTerraformDevCreatesLocalDirectoryAndFile(t *testing.T) {
 	terraform.InitAndApply(t, terraformOptions)
 
 	expectedDir := "/home/gocheme/Desktop/mock-project/MyTerragruntProject/mock/dev"
-	expectedFile := filepath.Join(expectedDir, "sample-configuration.conf")
+	expectedFile := filepath.Join(expectedDir, "sample-config-default.conf")
 
 	// Verify if the directory and file exist
 	assert.DirExists(t, expectedDir)

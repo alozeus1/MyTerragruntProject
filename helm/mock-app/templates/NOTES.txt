@@ -22,3 +22,8 @@ kubectl apply -f decrypted-secret.yaml
 
 - Applying the decrypted secrets to your Kubernetes cluster:
   - Secrets will be available for your pods either as environment variables or mounted files depending on how you've configured them in your deployment.
+
+Commands to perform Automated Testing (terratest)
+go test -v ./terraform_dev_test.go
+go test -v ./terraform_prod_test.go
+go test -v ./helm_test.go
