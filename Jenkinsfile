@@ -27,6 +27,78 @@ pipeline {
                 """
             }
         }
+
+        stage('Terragrunt Init - DEV') {
+            steps {
+                sh """
+                    cd mock/dev
+                    terragrunt init
+                """
+            }
+        }
+
+        stage('Terragrunt Plan - DEV') {
+            steps {
+                sh """
+                    cd mock/dev
+                    terragrunt plan
+                """
+            }
+        }
+
+        stage('Terragrunt Apply - DEV') {
+            steps {
+                sh """
+                    cd mock/dev
+                    terragrunt apply -auto-approve
+                """
+            }
+        }
+
+        stage('Terragrunt Init - PROD') {
+            steps {
+                sh """
+                    cd mock/prod
+                    terragrunt init
+                """
+            }
+        }
+
+        stage('Terragrunt Plan - PROD') {
+            steps {
+                sh """
+                    cd mock/prod
+                    terragrunt plan
+                """
+            }
+        }
+
+        stage('Terragrunt Apply - PROD') {
+            steps {
+                sh """
+                    cd mock/prod
+                    terragrunt apply -auto-approve
+                """
+            }
+        }
+                stage('Run Terratest') {
+            steps {
+                sh """
+                    echo "Setting up Go environment..."
+                    // You may not need to set GOPATH explicitly if using Go modules and Go version > 1.11
+                    // export GOPATH=/path/to/your/gopath  // Uncomment and set this if required
+                    
+                    echo "Navigating to tests directory..."
+                    cd tests
+
+                    echo "Running terratest for DEV environment..."
+                    go test -v terraform_dev_test.go
+                    
+                    echo "Running terratest for PROD environment..."
+                    go test -v terraform_prod_test.go
+                """
+            }
+        }
         stage('Building') {
             steps {
                 sh """
