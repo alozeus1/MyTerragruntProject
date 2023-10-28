@@ -109,12 +109,21 @@ pipeline {
                 """
             }
         }
-        stage('Building') {
+        stage('Maven Building') {
             steps {
-                sh """
-                    echo "Building the code. Please wait ....................."
-                    sleep 1
-                """
+                echo "Building the code. Please wait ....................."
+                sh 'mvn clean install'
+            }
+            post {
+                success {
+                    echo "Maven build successful"
+                }
+                failure {
+                    echo "Maven build failed"
+                }
+                always {
+                    junit '**/target/test-*.xml'
+                }
             }
         }
         stage('Scanning') {
