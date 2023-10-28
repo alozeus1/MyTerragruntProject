@@ -59,6 +59,7 @@ pipeline {
             steps {
                 sh """
                     cd mock/prod
+                    export TERRAGRUNT_DEBUG=true
                     terragrunt init
                 """
             }
