@@ -28,57 +28,66 @@ pipeline {
             }
         }
 
-        stage('Terragrunt Init - DEV') {
+        stage('terraform
+         Init - DEV') {
             steps {
                 sh """
                     cd mock/dev
-                    terragrunt init
+                    terraform
+                     init
                 """
             }
         }
 
-        stage('Terragrunt Plan - DEV') {
+        stage('terraform
+         Plan - DEV') {
             steps {
                 sh """
                     cd mock/dev
-                    terragrunt plan
+                    terraform
+                     plan
                 """
             }
         }
 
-        stage('Terragrunt Apply - DEV') {
+        stage('terraform
+         Apply - DEV') {
             steps {
                 sh """
                     cd mock/dev
-                    terragrunt apply -auto-approve
+                    terraform apply -auto-approve
                 """
             }
         }
 
-        stage('Terragrunt Init - PROD') {
+        stage('Terraform Init - PROD') {
             steps {
                 sh """
                     cd mock/prod
-                    export TERRAGRUNT_DEBUG=true
-                    terragrunt init
+                    export terraform
+                    _DEBUG=true
+                    terraform init
                 """
             }
         }
 
-        stage('Terragrunt Plan - PROD') {
+        stage('Terraform Plan - PROD') {
             steps {
                 sh """
                     cd mock/prod
-                    terragrunt plan
+                    terraform
+                     plan
                 """
             }
         }
 
-        stage('Terragrunt Apply - PROD') {
+        stage('Terraform
+         Apply - PROD') {
             steps {
                 sh """
                     cd mock/prod
-                    terragrunt apply -auto-approve
+                    terraform
+                     apply -auto-approve
                 """
             }
         }
